@@ -34,18 +34,20 @@ class CategoryController extends Controller
         ], 201);
     }
 
+    // Afficher une catégorie
     public function show($id)
-{
-    $category = Category::find($id);
+    {
+        $category = Category::find($id);
 
-    if (!$category) {
-        return response()->json([
-            'message' => 'Catégorie introuvable'
-        ], 404);
+        if (!$category) {
+            return response()->json([
+                'message' => 'Catégorie introuvable'
+            ], 404);
+        }
+
+        return response()->json($category);
     }
 
-    return response()->json($category);
-}
     // Modifier une catégorie
     public function update(Request $request, $id)
     {
