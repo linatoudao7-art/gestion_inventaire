@@ -9,11 +9,11 @@ class ProductController extends Controller
 {
     // Afficher tous les produits
     public function index()
-    {
-        $products = Product::with('category')->get();
+{
+    $products = Product::with(['category', 'supplier'])->get();
 
-        return response()->json($products);
-    }
+    return response()->json($products);
+}
 
     // Créer un produit
     public function store(Request $request)
@@ -24,7 +24,8 @@ class ProductController extends Controller
             'quantity' => 'required|integer',
             'purchase_price' => 'required|numeric',
             'sale_price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id'
+            'category_id' => 'required|exists:categories,id',
+            'supplier_id' => 'nullable|exists:suppliers,id'
         ]);
 
         $product = Product::create([
@@ -33,7 +34,8 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'purchase_price' => $request->purchase_price,
             'sale_price' => $request->sale_price,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id
         ]);
 
         return response()->json([
@@ -42,9 +44,10 @@ class ProductController extends Controller
         ], 201);
     }
     // Afficher un produit
+
 public function show($id)
 {
-    $product = Product::with('category')->find($id);
+    $product = Product::with(['category', 'supplier'])->find($id);
 
     if (!$product) {
         return response()->json([
@@ -56,6 +59,7 @@ public function show($id)
 }
 
 // Modifier un produit
+
 public function update(Request $request, $id)
 {
     $product = Product::find($id);
@@ -72,7 +76,8 @@ public function update(Request $request, $id)
         'quantity' => 'required|integer',
         'purchase_price' => 'required|numeric',
         'sale_price' => 'required|numeric',
-        'category_id' => 'required|exists:categories,id'
+        'category_id' => 'required|exists:categories,id',
+        'supplier_id' => 'nullable|exists:suppliers,id'
     ]);
 
     $product->update([
@@ -81,7 +86,8 @@ public function update(Request $request, $id)
         'quantity' => $request->quantity,
         'purchase_price' => $request->purchase_price,
         'sale_price' => $request->sale_price,
-        'category_id' => $request->category_id
+        'category_id' => $request->category_id,
+        'supplier_id' => $request->supplier_id
     ]);
 
     return response()->json([
@@ -91,6 +97,7 @@ public function update(Request $request, $id)
 }
 
 // Supprimer un produit
+
 public function destroy($id)
 {
     $product = Product::find($id);
