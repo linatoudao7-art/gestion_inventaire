@@ -15,7 +15,8 @@ class Product extends Model
     'purchase_price',
     'sale_price',
     'category_id',
-    'supplier_id'
+    'supplier_id',
+    'alert_threshold'
     ];
 
     public function category()

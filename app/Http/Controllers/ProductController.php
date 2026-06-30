@@ -8,9 +8,36 @@ use Illuminate\Http\Request;
 class ProductController extends Controller
 {
     // Afficher tous les produits
-    public function index()
+  public function index(Request $request)
 {
-    $products = Product::with(['category', 'supplier'])->get();
+    $query = Product::with(['category', 'supplier']);
+
+    // Recherche par nom
+    if ($request->filled('search')) {
+        $query->where('name', 'ILIKE', '%' . $request->search . '%');
+    }
+
+    // Filtre par catégorie
+    if ($request->filled('category')) {
+        $query->where('category_id', $request->category);
+    }
+
+    // Filtre par fournisseur
+    if ($request->filled('supplier')) {
+        $query->where('supplier_id', $request->supplier);
+    }
+
+    $products = $query->get();
+
+    $products->transform(function ($product) {
+
+        $product->stock_status =
+            $product->quantity <= $product->alert_threshold
+                ? 'Stock faible'
+                : 'Stock suffisant';
+
+        return $product;
+    });
 
     return response()->json($products);
 }
@@ -25,7 +52,8 @@ class ProductController extends Controller
             'purchase_price' => 'required|numeric',
             'sale_price' => 'required|numeric',
             'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'nullable|exists:suppliers,id'
+            'supplier_id' => 'nullable|exists:suppliers,id',
+            'alert_threshold' => 'required|integer|min:1'
         ]);
 
         $product = Product::create([
@@ -35,7 +63,8 @@ class ProductController extends Controller
             'purchase_price' => $request->purchase_price,
             'sale_price' => $request->sale_price,
             'category_id' => $request->category_id,
-            'supplier_id' => $request->supplier_id
+            'supplier_id' => $request->supplier_id,
+            'alert_threshold' => $request->alert_threshold
         ]);
 
         return response()->json([
@@ -77,7 +106,8 @@ public function update(Request $request, $id)
         'purchase_price' => 'required|numeric',
         'sale_price' => 'required|numeric',
         'category_id' => 'required|exists:categories,id',
-        'supplier_id' => 'nullable|exists:suppliers,id'
+        'supplier_id' => 'nullable|exists:suppliers,id',
+        'alert_threshold' => 'required|integer|min:1'
     ]);
 
     $product->update([
@@ -87,7 +117,8 @@ public function update(Request $request, $id)
         'purchase_price' => $request->purchase_price,
         'sale_price' => $request->sale_price,
         'category_id' => $request->category_id,
-        'supplier_id' => $request->supplier_id
+        'supplier_id' => $request->supplier_id,
+        'alert_threshold' => $request->alert_threshold
     ]);
 
     return response()->json([
