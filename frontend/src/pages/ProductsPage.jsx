@@ -11,6 +11,8 @@ function ProductsPage() {
     const [categories, setCategories] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
     const [editingProduct, setEditingProduct] = useState(null);
+    const [search, setSearch] = useState("");
+    const [selectedCategory, setSelectedCategory] = useState("");
 
     useEffect(() => {
     loadProducts();
@@ -25,6 +27,28 @@ function ProductsPage() {
         } catch (error) {
             console.error(error);
         }
+    };
+    const handleSearch = async (value) => {
+
+    setSearch(value);
+
+    try {
+
+        if (value.trim() === "") {
+
+            loadProducts();
+
+        } else {
+
+            const response = await productService.search(value);
+            setProducts(response.data);
+
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+
     };
 
     const handleCreate = async (data) => {
@@ -101,6 +125,29 @@ function ProductsPage() {
     }
 
 };
+const handleCategoryFilter = async (categoryId) => {
+
+    setSelectedCategory(categoryId);
+
+    try {
+
+        if (categoryId === "") {
+
+            loadProducts();
+
+        } else {
+
+            const response = await productService.filterByCategory(categoryId);
+
+            setProducts(response.data);
+
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
+
+};
 const handleEdit = (product) => {
     console.log(product);
     setEditingProduct(product);
@@ -110,7 +157,17 @@ console.log("ProductsPage editingProduct :", editingProduct);
         <div className="container mt-4">
 
             <h2>Gestion des produits</h2>
+            <div className="mb-3">
 
+            <input
+            type="text"
+            className="form-control"
+            placeholder="Rechercher un produit par son nom..."
+            value={search}
+            onChange={(e) => handleSearch(e.target.value)}
+            />
+
+        </div>
             <ProductForm
             onSubmit={handleCreate}
             editingProduct={editingProduct}
