@@ -10,6 +10,7 @@ function ProductsPage() {
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
     const [suppliers, setSuppliers] = useState([]);
+    const [editingProduct, setEditingProduct] = useState(null);
 
     useEffect(() => {
     loadProducts();
@@ -30,8 +31,25 @@ function ProductsPage() {
 
     try {
 
-        await productService.create(data);
+        if (editingProduct) {
 
+    const confirmation = window.confirm(
+        "Voulez-vous vraiment modifier ce produit ?"
+    );
+
+    if (!confirmation) {
+        return;
+    }
+
+    await productService.update(editingProduct.id, data);
+
+    setEditingProduct(null);
+
+} else {
+
+    await productService.create(data);
+
+}
         await loadProducts();
 
     } catch (error) {
@@ -66,6 +84,28 @@ function ProductsPage() {
     console.error(error);
 }
     };
+    const handleDelete = async (id) => {
+
+    if (!window.confirm("Voulez-vous vraiment supprimer ce produit ?")) {
+        return;
+    }
+
+    try {
+
+        await productService.remove(id);
+
+        loadProducts();
+
+    } catch (error) {
+        console.error(error);
+    }
+
+};
+const handleEdit = (product) => {
+    console.log(product);
+    setEditingProduct(product);
+};
+console.log("ProductsPage editingProduct :", editingProduct);
     return (
         <div className="container mt-4">
 
@@ -73,11 +113,16 @@ function ProductsPage() {
 
             <ProductForm
             onSubmit={handleCreate}
+            editingProduct={editingProduct}
             categories={categories}
             suppliers={suppliers}
-        />
+            />
 
-            <ProductList products={products} />
+            <ProductList
+            products={products}
+            onDelete={handleDelete}
+            onEdit={handleEdit}
+            />
 
         </div>
     );

@@ -1,6 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-function ProductForm({ onSubmit, categories, suppliers }) {
+function ProductForm({
+    onSubmit,
+    categories,
+    suppliers,
+    editingProduct
+})  {
 
     const [formData, setFormData] = useState({
         name: "",
@@ -12,6 +17,38 @@ function ProductForm({ onSubmit, categories, suppliers }) {
         category_id: "",
         supplier_id: ""
     });
+    console.log("editingProduct :", editingProduct);
+    useEffect(() => {
+
+    if (editingProduct) {
+
+        setFormData({
+            name: editingProduct.name,
+            description: editingProduct.description || "",
+            quantity: editingProduct.quantity,
+            purchase_price: editingProduct.purchase_price,
+            sale_price: editingProduct.sale_price,
+            alert_threshold: editingProduct.alert_threshold,
+            category_id: editingProduct.category_id,
+            supplier_id: editingProduct.supplier_id || ""
+        });
+
+    } else {
+
+        setFormData({
+            name: "",
+            description: "",
+            quantity: "",
+            purchase_price: "",
+            sale_price: "",
+            alert_threshold: "",
+            category_id: "",
+            supplier_id: ""
+        });
+
+    }
+
+}, [editingProduct]);
 
     const handleChange = (e) => {
         setFormData({
@@ -51,7 +88,9 @@ function ProductForm({ onSubmit, categories, suppliers }) {
 
         <form onSubmit={handleSubmit} className="card p-3 mb-4">
 
-            <h4>Ajouter un produit</h4>
+            <h4>
+    {editingProduct ? "Modifier un produit" : "Ajouter un produit"}
+            </h4>
 
             <div className="row">
 
@@ -173,7 +212,7 @@ function ProductForm({ onSubmit, categories, suppliers }) {
             </div>
 
             <button className="btn btn-success">
-                Ajouter
+                {editingProduct ? "Modifier" : "Ajouter"}
             </button>
 
         </form>
