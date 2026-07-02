@@ -142,6 +142,7 @@ const handleCategoryFilter = async (categoryId) => {
             setProducts(response.data);
 
         }
+        
 
     } catch (error) {
         console.error(error);
@@ -168,6 +169,33 @@ console.log("ProductsPage editingProduct :", editingProduct);
             />
 
         </div>
+        
+        <div className="mb-3">
+
+    <select
+        className="form-select"
+        value={selectedCategory}
+        onChange={(e) => handleCategoryFilter(e.target.value)}
+    >
+
+        <option value="">
+            Toutes les catégories
+        </option>
+
+        {categories.map(category => (
+
+            <option
+                key={category.id}
+                value={category.id}
+            >
+                {category.name}
+            </option>
+
+        ))}
+
+    </select>
+
+</div>
             <ProductForm
             onSubmit={handleCreate}
             editingProduct={editingProduct}

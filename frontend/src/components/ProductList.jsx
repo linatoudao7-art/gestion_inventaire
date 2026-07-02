@@ -16,7 +16,14 @@ function ProductList({ products, onDelete, onEdit }) {
 
                 {products.map(product => (
 
-                    <tr key={product.id}>
+                    <tr
+                key={product.id}
+                className={
+                product.stock_status === "Stock faible"
+                ? "table-danger"
+                : ""
+    }
+>
 
                         <td>{product.name}</td>
 
@@ -24,9 +31,18 @@ function ProductList({ products, onDelete, onEdit }) {
 
                         <td>{product.quantity}</td>
 
-                        <td>{product.stock_status}</td>
                         <td>
-
+                            {product.stock_status === "Stock faible" ? (
+                    <span className="badge bg-danger">
+                    Stock faible
+                    </span>
+                    ) : (
+                    <span className="badge bg-success">
+                    Stock suffisant
+                    </span>
+                    )}
+                        </td>
+                        <td>
                     <button
                 className="btn btn-warning btn-sm me-2"
                 onClick={() => {

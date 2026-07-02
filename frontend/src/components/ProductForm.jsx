@@ -57,10 +57,67 @@ function ProductForm({
         });
     };
     
+const handleCategoryFilter = async (categoryId) => {
 
+    setSelectedCategory(categoryId);
+
+    try {
+
+        if (categoryId === "") {
+
+            loadProducts();
+
+        } else {
+
+            const response = await productService.filterByCategory(categoryId);
+
+            setProducts(response.data);
+
+        }
+        
+
+    } catch (error) {
+        console.error(error);
+    }
+
+};
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const validationErrors = {};
+
+if (!formData.name.trim()) {
+    validationErrors.name = ["Le nom est obligatoire."];
+}
+
+if (!formData.quantity) {
+    validationErrors.quantity = ["La quantité est obligatoire."];
+}
+
+if (!formData.purchase_price) {
+    validationErrors.purchase_price = ["Le prix d'achat est obligatoire."];
+}
+
+if (!formData.sale_price) {
+    validationErrors.sale_price = ["Le prix de vente est obligatoire."];
+}
+
+if (!formData.alert_threshold) {
+    validationErrors.alert_threshold = ["Le seuil d'alerte est obligatoire."];
+}
+
+if (!formData.category_id) {
+    validationErrors.category_id = ["La catégorie est obligatoire."];
+}
+
+if (!formData.supplier_id) {
+    validationErrors.supplier_id = ["Le fournisseur est obligatoire."];
+}
+
+if (Object.keys(validationErrors).length > 0) {
+    setErrors(validationErrors);
+    return;
+}
         try {
     await onSubmit(formData);
 
@@ -102,6 +159,12 @@ function ProductForm({
                         value={formData.name}
                         onChange={handleChange}
                     />
+                    {errors.name && (
+                        <div className="text-danger">
+                            {errors.name[0]}
+                        </div>
+                    )}
+                    
                 </div>
 
                 <div className="col-md-6 mb-3">
@@ -112,6 +175,11 @@ function ProductForm({
                         value={formData.description}
                         onChange={handleChange}
                     />
+                    {errors.description && (
+                        <div className="text-danger">
+                            {errors.description[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -123,6 +191,11 @@ function ProductForm({
                         value={formData.purchase_price}
                         onChange={handleChange}
                     />
+                    {errors.purchase_price && (
+                        <div className="text-danger">
+                            {errors.purchase_price[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -134,6 +207,11 @@ function ProductForm({
                         value={formData.sale_price}
                         onChange={handleChange}
                     />
+                    {errors.sale_price && (
+                        <div className="text-danger">
+                            {errors.sale_price[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -145,6 +223,11 @@ function ProductForm({
                         value={formData.quantity}
                         onChange={handleChange}
                     />
+                    {errors.quantity && (
+                        <div className="text-danger">
+                            {errors.quantity[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -156,6 +239,11 @@ function ProductForm({
                         value={formData.alert_threshold}
                         onChange={handleChange}
                     />
+                    {errors.alert_threshold && (
+                        <div className="text-danger">
+                            {errors.alert_threshold[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -181,6 +269,11 @@ function ProductForm({
                         ))}
 
                     </select>
+                    {errors.category_id && (
+                        <div className="text-danger">
+                            {errors.category_id[0]}
+                        </div>
+                    )}
                 </div>
 
                 <div className="col-md-4 mb-3">
@@ -206,7 +299,11 @@ function ProductForm({
                         ))}
 
                     </select>
-                        
+                    {errors.supplier_id && (
+                        <div className="text-danger">
+                            {errors.supplier_id[0]}
+                        </div>
+                    )}
                 </div>
 
             </div>
