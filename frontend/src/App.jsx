@@ -4,61 +4,31 @@ import ProductsPage from "./pages/ProductsPage";
 import CategoriesPage from "./pages/CategoriesPage";
 import SuppliersPage from "./pages/SuppliersPage";
 import DashboardPage from "./pages/DashboardPage";
+import Sidebar from "./components/Sidebar";
 
 function App() {
     return (
-        <div>
+    <div className="d-flex">
 
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <Sidebar />
 
-                <div className="container">
+        <div className="flex-grow-1 p-4">
 
-                    <Link className="navbar-brand" to="/">
-                        Gestion Stock
-                    </Link>
+            <Routes>
 
-                    <div className="navbar-nav">
+                <Route path="/" element={<DashboardPage />} />
 
-                        <Link className="nav-link" to="/products">
-                            Produits
-                        </Link>
+                <Route path="/products" element={<ProductsPage />} />
 
-                        <Link className="nav-link" to="/categories">
-                            Catégories
-                        </Link>
+                <Route path="/categories" element={<CategoriesPage />} />
 
-                        <Link className="nav-link" to="/suppliers">
-                            Fournisseurs
-                        </Link>
+                <Route path="/suppliers" element={<SuppliersPage />} />
 
-                        <Link className="nav-link" to="/dashboard">
-                            Tableau de bord
-                        </Link>
-
-                    </div>
-
-                </div>
-
-            </nav>
-
-            <div className="container mt-4">
-
-                <Routes>
-                    
-                    <Route path="/dashboard" element={<DashboardPage />} />             
-                    
-                    <Route path="/products" element={<ProductsPage />} />
-
-                    <Route path="/categories" element={<CategoriesPage />} />
-
-                    <Route path="/suppliers" element={<SuppliersPage />} />
-
-                </Routes>
-
-            </div>
+            </Routes>
 
         </div>
-    );
-}
 
+    </div>
+);
+}
 export default App;
