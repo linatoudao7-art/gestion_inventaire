@@ -15,7 +15,7 @@ L'application permet de gérer :
 
 Le backend est développé avec **Laravel** et le frontend avec **React**.
 
----
+
 
 # Technologies utilisées
 
