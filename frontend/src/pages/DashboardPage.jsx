@@ -8,7 +8,8 @@ function DashboardPage() {
     categories: 0,
     suppliers: 0,
     lowStock: 0,
-    lowStockProducts: []
+    lowStockProducts: [],
+    stockTotal: 0
 });
 
     useEffect(() => {
@@ -41,9 +42,9 @@ function DashboardPage() {
                 Tableau de bord
             </h2>
 
-            <div className="row">
+            <div className="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-3">
 
-                <div className="col-md-3">
+                <div className="col">
 
                     <div className="card dashboard-card text-white bg-primary mb-3">
 
@@ -51,6 +52,9 @@ function DashboardPage() {
 
                             <h5 className="card-title">
                     <i className="bi bi-box-seam me-2"></i>
+
+                        <br />
+
                         Produits
                             </h5>
 
@@ -62,16 +66,19 @@ function DashboardPage() {
 
                 </div>
 
-                <div className="col-md-3">
+                <div className="col">
 
                     <div className="card dashboard-card text-white bg-success mb-3">
 
                         <div className="card-body">
 
                             <h5 className="card-title">
-    <i className="bi bi-tags me-2"></i>
-    Catégories
-</h5>
+                        <i className="bi bi-tags me-2"></i>
+
+                        <br />
+
+                        Catégories
+                            </h5>
 
                             <h2>{stats.categories}</h2>
                         </div>
@@ -80,17 +87,20 @@ function DashboardPage() {
 
                 </div>
 
-                <div className="col-md-3">
+                <div className="col">
 
                     <div className="card dashboard-card text-white bg-warning mb-3">
 
                         <div className="card-body">
 
                             <h5 className="card-title">
+
                                 <i className="bi bi-truck me-2"></i>
-                                
-                                Fournisseurs
-                                
+
+                                    <br />
+
+                         Fournisseurs
+
                             </h5>
 
                             <h2>{stats.suppliers}</h2>
@@ -101,7 +111,7 @@ function DashboardPage() {
 
                 </div>
 
-                <div className="col-md-3">
+                <div className="col">
 
                     <div className="card dashboard-card text-white bg-danger mb-3">
 
@@ -109,7 +119,10 @@ function DashboardPage() {
 
                             <h5 className="card-title">
                                 <i className="bi bi-exclamation-triangle me-2"></i>
-                                Stock faible
+                    
+
+                                StockFaible
+
                             </h5>
 
                             <h2>{stats.lowStockProducts.length}</h2>
@@ -119,11 +132,33 @@ function DashboardPage() {
                     </div>
 
                 </div>
+                <div className=" col">
+
+                    <div className="card dashboard-card text-white bg-info mb-3">   
+
+                       <div className="card-body">
+
+                            <h5 className="card-title">
+                                <i className="bi bi-boxes me-2"></i>
+
+                                <br />
+
+                                stock Total
+                                
+                            </h5>
+
+
+                            <h2>{stats.stockTotal}</h2>
+
+                        </div>
+
+                    </div>
+
+                </div>
 
             </div>
-                        
 
-            <div className="card mt-4">
+            <div className="card mt-3">
 
                 <div className="card-header bg-danger text-white">
 

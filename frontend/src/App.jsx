@@ -24,6 +24,8 @@ function App() {
 
                 <Route path="/suppliers" element={<SuppliersPage />} />
 
+                
+
             </Routes>
 
         </div>

@@ -15,6 +15,10 @@ const productService = {
     
     filterByCategory: (categoryId) =>
     api.get(`/products?category=${categoryId}`),
+
+    exportExcel() {
+    window.open("http://127.0.0.1:8000/api/products/export");
+}
 };
 
 export default productService;

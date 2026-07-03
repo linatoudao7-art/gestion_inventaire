@@ -20,6 +20,7 @@ function ProductsPage() {
     loadSuppliers();
     }, []);
 
+    
     const loadProducts = async () => {
         try {
             const response = await productService.getAll();
@@ -28,6 +29,8 @@ function ProductsPage() {
             console.error(error);
         }
     };
+
+    
     const handleSearch = async (value) => {
 
     setSearch(value);
@@ -153,6 +156,9 @@ const handleEdit = (product) => {
     console.log(product);
     setEditingProduct(product);
 };
+const handleExport = () => {
+    window.open("http://127.0.0.1:8000/api/products/export", "_blank");
+};
 console.log("ProductsPage editingProduct :", editingProduct);
     return (
         <div className="container mt-4">
@@ -192,9 +198,9 @@ console.log("ProductsPage editingProduct :", editingProduct);
             </option>
 
         ))}
-
+        
     </select>
-
+        
 </div>
             <ProductForm
             onSubmit={handleCreate}
@@ -202,6 +208,14 @@ console.log("ProductsPage editingProduct :", editingProduct);
             categories={categories}
             suppliers={suppliers}
             />
+            
+            <button
+            className="btn btn-success mb-3"
+            onClick={handleExport}
+>
+            <i className="bi bi-file-earmark-excel me-2"></i>
+            Exporter Excel
+            </button>
 
             <ProductList
             products={products}
