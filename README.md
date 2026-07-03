@@ -16,7 +16,6 @@ L'application permet de gérer :
 Le backend est développé avec **Laravel** et le frontend avec **React**.
 
 
-
 # Technologies utilisées
 
 ## Backend
@@ -33,8 +32,6 @@ Le backend est développé avec **Laravel** et le frontend avec **React**.
 - Axios
 - Bootstrap 5
 
----
-
 # Prérequis
 
 Avant de lancer le projet, installer :
@@ -45,8 +42,6 @@ Avant de lancer le projet, installer :
 - npm
 - PostgreSQL
 - XAMPP (ou Apache)
-
----
 
 # Installation du projet
 
@@ -61,8 +56,6 @@ Puis :
 ```bash
 cd gestion-inventaire
 ```
-
----
 
 ## 2. Installation du backend Laravel
 
@@ -84,8 +77,6 @@ Générer la clé de l'application :
 php artisan key:generate
 ```
 
----
-
 ## 3. Configuration PostgreSQL
 
 Créer une base de données nommée :
@@ -105,15 +96,11 @@ DB_USERNAME=postgres
 DB_PASSWORD=votre_mot_de_passe
 ```
 
----
-
 ## 4. Exécuter les migrations
 
 ```bash
 php artisan migrate
 ```
-
----
 
 ## 5. Lancer Laravel
 
@@ -126,9 +113,6 @@ Le backend sera disponible sur :
 ```
 http://127.0.0.1:8000
 ```
-
----
-
 # Installation du frontend React
 
 Se placer dans le dossier React :
@@ -191,8 +175,6 @@ http://localhost:5173
 
 - Export des produits au format Excel
 
----
-
 # Test des principales fonctionnalités
 
 1. Ajouter une catégorie.
@@ -204,8 +186,6 @@ http://localhost:5173
 7. Filtrer les produits par catégorie.
 8. Vérifier l'affichage des alertes de stock faible.
 9. Exporter la liste des produits au format Excel.
-
----
 
 # Structure du projet
 
@@ -225,8 +205,6 @@ components/
 pages/
 services/
 ```
-
----
 
 # Auteur
 
