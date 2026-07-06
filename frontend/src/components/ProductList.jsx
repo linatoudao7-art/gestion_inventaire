@@ -50,9 +50,9 @@ function ProductList({ products, onDelete, onEdit }) {
                 onEdit(product);
                 }}
                     >
-                Modifier
+                        Modifier
                     </button>
-
+ 
                 <button
             className="btn btn-danger btn-sm"
             onClick={() => onDelete(product.id)}

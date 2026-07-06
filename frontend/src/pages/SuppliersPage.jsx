@@ -2,11 +2,13 @@ import { useEffect, useState } from "react";
 import supplierService from "../services/supplierService";
 import SupplierList from "../components/SupplierList";
 import SupplierForm from "../components/SupplierForm";
+import Swal from "sweetalert2";
 
 function SuppliersPage() {
 
     const [suppliers, setSuppliers] = useState([]);
     const [editingSupplier, setEditingSupplier] = useState(null);
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
         loadSuppliers();
@@ -29,13 +31,18 @@ function SuppliersPage() {
     };
     const handleDelete = async (id) => {
 
-    const confirmation = window.confirm(
-        "Voulez-vous vraiment supprimer ce fournisseur ?"
-    );
+    const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Ce fournisseur sera supprimé définitivement.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler"
+    });
 
-    if (!confirmation) {
-        return;
-    }
+    if (!result.isConfirmed) return;
 
     try {
 
@@ -43,16 +50,23 @@ function SuppliersPage() {
 
         await loadSuppliers();
 
+        Swal.fire({
+            icon: "success",
+            title: "Supprimé !",
+            text: "Fournisseur supprimé avec succès !",
+            timer: 2000,
+            showConfirmButton: false
+        });
+
     } catch (error) {
-
         console.error(error);
-
     }
 
 };
 
     const handleEdit = (supplier) => {
     setEditingSupplier(supplier);
+    setShowForm(true);
 };
 
     const handleCreate = async (data) => {
@@ -60,14 +74,6 @@ function SuppliersPage() {
     try {
 
         if (editingSupplier) {
-
-            const confirmation = window.confirm(
-                "Voulez-vous vraiment modifier ce fournisseur ?"
-            );
-
-            if (!confirmation) {
-                return;
-            }
 
             await supplierService.update(editingSupplier.id, data);
 
@@ -80,6 +86,19 @@ function SuppliersPage() {
         }
 
         await loadSuppliers();
+        Swal.fire({
+        icon: "success",
+        title: "Succès",
+        text: editingSupplier
+        ? "Fournisseur modifié avec succès !"
+        : "Fournisseur ajouté avec succès !",
+        timer: 2000,
+        showConfirmButton: false
+});
+
+
+        setShowForm(false);
+        setEditingSupplier(null);
 
     } catch (error) {
 
@@ -98,10 +117,25 @@ function SuppliersPage() {
         <div className="container mt-4">
 
             <h2>Gestion des fournisseurs</h2>
-            <SupplierForm
-            onSubmit={handleCreate}
-            editingSupplier={editingSupplier}
-            />
+            <button
+            className="btn btn-primary mb-3"
+            onClick={() => {
+        setEditingSupplier(null);
+        setShowForm(true);
+    }}
+        >
+        Ajouter un fournisseur
+        </button>
+            {showForm && (
+        <SupplierForm
+        onSubmit={handleCreate}
+        editingSupplier={editingSupplier}
+        onCancel={() => {
+            setShowForm(false);
+            setEditingSupplier(null);
+        }}
+        />
+    )}
             <SupplierList
             suppliers={suppliers}
             onDelete={handleDelete}

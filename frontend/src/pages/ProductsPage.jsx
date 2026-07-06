@@ -4,6 +4,7 @@ import ProductList from "../components/ProductList";
 import ProductForm from "../components/ProductForm";
 import categoryService from "../services/categoryService";
 import supplierService from "../services/supplierService";
+import Swal from "sweetalert2";
 
 function ProductsPage() {
 
@@ -13,6 +14,7 @@ function ProductsPage() {
     const [editingProduct, setEditingProduct] = useState(null);
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
+    const [showForm, setShowForm] = useState(false);
 
     useEffect(() => {
     loadProducts();
@@ -60,16 +62,7 @@ function ProductsPage() {
 
         if (editingProduct) {
 
-    const confirmation = window.confirm(
-        "Voulez-vous vraiment modifier ce produit ?"
-    );
-
-    if (!confirmation) {
-        return;
-    }
-
     await productService.update(editingProduct.id, data);
-
     setEditingProduct(null);
 
 } else {
@@ -79,6 +72,19 @@ function ProductsPage() {
 }
         await loadProducts();
 
+    Swal.fire({
+    icon: "success",
+    title: "Succès",
+    text: editingProduct
+        ? "Produit modifié avec succès !"
+        : "Produit ajouté avec succès !",
+    timer: 2000,
+    showConfirmButton: false
+    });
+
+    setShowForm(false);
+        
+        setEditingProduct(null);
     } catch (error) {
 
         if (error.response && error.response.status === 422) {
@@ -113,20 +119,36 @@ function ProductsPage() {
     };
     const handleDelete = async (id) => {
 
-    if (!window.confirm("Voulez-vous vraiment supprimer ce produit ?")) {
-        return;
-    }
+    const result = await Swal.fire({
+        title: "Êtes-vous sûr ?",
+        text: "Cette action est irréversible !",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#6c757d",
+        confirmButtonText: "Oui, supprimer",
+        cancelButtonText: "Annuler"
+    });
+
+    if (!result.isConfirmed) return;
 
     try {
 
         await productService.remove(id);
 
-        loadProducts();
+        await loadProducts();
+
+        Swal.fire({
+            icon: "success",
+            title: "Supprimé !",
+            text: "Le produit a été supprimé avec succès.",
+            timer: 2000,
+            showConfirmButton: false
+        });
 
     } catch (error) {
         console.error(error);
     }
-
 };
 const handleCategoryFilter = async (categoryId) => {
 
@@ -155,7 +177,9 @@ const handleCategoryFilter = async (categoryId) => {
 const handleEdit = (product) => {
     console.log(product);
     setEditingProduct(product);
+    setShowForm(true);
 };
+
 const handleExport = () => {
     window.open("http://127.0.0.1:8000/api/products/export", "_blank");
 };
@@ -202,13 +226,28 @@ console.log("ProductsPage editingProduct :", editingProduct);
     </select>
         
 </div>
-            <ProductForm
-            onSubmit={handleCreate}
-            editingProduct={editingProduct}
-            categories={categories}
-            suppliers={suppliers}
-            />
-            
+                <div className="mb-3">
+        <button
+        className="btn btn-primary"
+        onClick={() => {
+            setEditingProduct(null);
+            setShowForm(true);
+        }}
+    >
+        <i className="bi bi-plus-circle me-2"></i>
+        Ajouter un produit
+        </button>
+</div>
+                
+            {showForm && (
+        <ProductForm
+        onSubmit={handleCreate}
+        editingProduct={editingProduct}
+        categories={categories}
+        suppliers={suppliers}
+        onCancel={() => setShowForm(false)}
+    />
+)}    
             <button
             className="btn btn-success mb-3"
             onClick={handleExport}

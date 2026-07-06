@@ -6,7 +6,7 @@ function CategoryForm({ onSubmit, editingCategory }) {
         name: "",
         description: ""
     });
-
+    
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -103,7 +103,7 @@ function CategoryForm({ onSubmit, editingCategory }) {
             </div>
 
             <button className="btn btn-success">
-                {editingCategory ? "Modifier" : "Ajouter"}
+                {editingCategory ? "Modifier" : "Enregistrer"}
             </button>
 
         </form>

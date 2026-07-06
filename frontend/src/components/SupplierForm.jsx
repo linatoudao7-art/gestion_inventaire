@@ -151,9 +151,9 @@ function SupplierForm({ onSubmit, editingSupplier }) {
             </div>
 
             <button className="btn btn-success">
-                {editingSupplier ? "Modifier" : "Ajouter"}
+                {editingSupplier ? "Modifier" : "Enregistrer"}
             </button>
-
+                
         </form>
 
     );

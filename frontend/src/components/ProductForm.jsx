@@ -4,7 +4,8 @@ function ProductForm({
     onSubmit,
     categories,
     suppliers,
-    editingProduct
+    editingProduct,
+    onCancel
 })  {
 
     const [formData, setFormData] = useState({
@@ -166,87 +167,7 @@ if (Object.keys(validationErrors).length > 0) {
                     )}
                     
                 </div>
-
                 <div className="col-md-6 mb-3">
-                    <label>Description</label>
-                    <input
-                        className="form-control"
-                        name="description"
-                        value={formData.description}
-                        onChange={handleChange}
-                    />
-                    {errors.description && (
-                        <div className="text-danger">
-                            {errors.description[0]}
-                        </div>
-                    )}
-                </div>
-
-                <div className="col-md-4 mb-3">
-                    <label>Prix d'achat</label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        name="purchase_price"
-                        value={formData.purchase_price}
-                        onChange={handleChange}
-                    />
-                    {errors.purchase_price && (
-                        <div className="text-danger">
-                            {errors.purchase_price[0]}
-                        </div>
-                    )}
-                </div>
-
-                <div className="col-md-4 mb-3">
-                    <label>Prix de vente</label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        name="sale_price"
-                        value={formData.sale_price}
-                        onChange={handleChange}
-                    />
-                    {errors.sale_price && (
-                        <div className="text-danger">
-                            {errors.sale_price[0]}
-                        </div>
-                    )}
-                </div>
-
-                <div className="col-md-4 mb-3">
-                    <label>Quantité</label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        name="quantity"
-                        value={formData.quantity}
-                        onChange={handleChange}
-                    />
-                    {errors.quantity && (
-                        <div className="text-danger">
-                            {errors.quantity[0]}
-                        </div>
-                    )}
-                </div>
-
-                <div className="col-md-4 mb-3">
-                    <label>Seuil d'alerte</label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        name="alert_threshold"
-                        value={formData.alert_threshold}
-                        onChange={handleChange}
-                    />
-                    {errors.alert_threshold && (
-                        <div className="text-danger">
-                            {errors.alert_threshold[0]}
-                        </div>
-                    )}
-                </div>
-
-                <div className="col-md-4 mb-3">
                     <label>Catégorie</label>
 
                     <select
@@ -275,8 +196,8 @@ if (Object.keys(validationErrors).length > 0) {
                         </div>
                     )}
                 </div>
-
-                <div className="col-md-4 mb-3">
+                    
+                    <div className="col-md-6 mb-3">
                     <label>Fournisseur</label>
 
                     <select
@@ -306,12 +227,92 @@ if (Object.keys(validationErrors).length > 0) {
                     )}
                 </div>
 
+
+                <div className="col-md-6 mb-3">
+                    <label>Description</label>
+                    <input
+                        className="form-control"
+                        name="description"
+                        value={formData.description}
+                        onChange={handleChange}
+                    />
+                    {errors.description && (
+                        <div className="text-danger">
+                            {errors.description[0]}
+                        </div>
+                    )}
+                </div>
+
+                <div className="col-md-6 mb-3">
+                    <label>Prix d'achat</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        name="purchase_price"
+                        value={formData.purchase_price}
+                        onChange={handleChange}
+                    />
+                    {errors.purchase_price && (
+                        <div className="text-danger">
+                            {errors.purchase_price[0]}
+                        </div>
+                    )}
+                </div>
+
+                <div className="col-md-6 mb-3">
+                    <label>Prix de vente</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        name="sale_price"
+                        value={formData.sale_price}
+                        onChange={handleChange}
+                    />
+                    {errors.sale_price && (
+                        <div className="text-danger">
+                            {errors.sale_price[0]}
+                        </div>
+                    )}
+                </div>
+
+                <div className="col-md-6 mb-3">
+                    <label>Quantité</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleChange}
+                    />
+                    {errors.quantity && (
+                        <div className="text-danger">
+                            {errors.quantity[0]}
+                        </div>
+                    )}
+                </div>
+
+                <div className="col-md-6 mb-3">
+                    <label>Seuil d'alerte</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        name="alert_threshold"
+                        value={formData.alert_threshold}
+                        onChange={handleChange}
+                    />
+                    {errors.alert_threshold && (
+                        <div className="text-danger">
+                            {errors.alert_threshold[0]}
+                        </div>
+                    )}
+                </div>
+                
             </div>
 
             <button className="btn btn-success">
-                {editingProduct ? "Modifier" : "Ajouter"}
+                {editingProduct ? "Modifier" : "Enregistrer"}
             </button>
-
+            
         </form>
 
     );
