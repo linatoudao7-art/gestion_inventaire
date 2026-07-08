@@ -107,8 +107,9 @@ function CategoriesPage() {
         <div className="container mt-4">
 
             <h2>Gestion des catégories</h2>
-             
+             <br />
              <button className="btn btn-primary mb-3" onClick={() => setShowForm(true)}>
+                <i className="bi bi-plus-circle me-2"></i>
                 Ajouter une catégorie
             </button>
             {showForm && (

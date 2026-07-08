@@ -99,7 +99,9 @@ function DashboardPage() {
 
                                     <br />
 
-                         Fournisseurs
+                         
+                            Fournisseurs
+                       
 
                             </h5>
 
@@ -120,8 +122,10 @@ function DashboardPage() {
                             <h5 className="card-title">
                                 <i className="bi bi-exclamation-triangle me-2"></i>
                     
-
-                                StockFaible
+                            <br />
+                            
+                            Stock Faible
+                       
 
                             </h5>
 

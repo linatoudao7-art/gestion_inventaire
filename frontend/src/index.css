@@ -52,6 +52,7 @@
 
 body {
   margin: 0;
+  cursor: default;
 }
 
 #root {
@@ -108,19 +109,4 @@ code {
   line-height: 135%;
   padding: 4px 8px;
   background: var(--code-bg);
-}
-/* Empêche la sélection du texte dans les tableaux */
-.table {
-    user-select: none;
-}
-
-/* Les cellules gardent le curseur normal */
-.table td,
-.table th {
-    cursor: default;
-}
-
-/* Les boutons restent cliquables */
-.table button {
-    cursor: pointer;
 }

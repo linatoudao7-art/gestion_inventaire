@@ -30,20 +30,33 @@ function CategoryForm({ onSubmit, editingCategory }) {
     }, [editingCategory]);
 
     const handleChange = (e) => {
+    setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
 
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
+    if (errors[e.target.name]) {
+        setErrors({
+            ...errors,
+            [e.target.name]: ""
         });
-
-    };
-
+    }
+};
     const handleSubmit = async (e) => {
-
     e.preventDefault();
 
-    try {
+    const newErrors = {};
 
+    if (!formData.name.trim()) {
+        newErrors.name = "Le nom est obligatoire.";
+    }
+
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+    }
+
+    try {
         await onSubmit(formData);
 
         setErrors({});
@@ -54,17 +67,15 @@ function CategoryForm({ onSubmit, editingCategory }) {
         });
 
     } catch (errors) {
-
         setErrors(errors);
-
     }
-
 };
 
+
     return (
-
-        <form onSubmit={handleSubmit} className="mb-4">
-
+        
+        <form onSubmit={handleSubmit} className="card p-3 mb-4">
+            
             <h4>
                 {editingCategory ? "Modifier une catégorie" : "Ajouter une catégorie"}
             </h4>
@@ -72,7 +83,7 @@ function CategoryForm({ onSubmit, editingCategory }) {
             <div className="mb-3">
 
                 <label>Nom</label>
-
+                
                 <input
                     type="text"
                     className="form-control"
@@ -80,13 +91,12 @@ function CategoryForm({ onSubmit, editingCategory }) {
                     value={formData.name}
                     onChange={handleChange}
                 />
-
                 {errors.name && (
-                    <div className="text-danger">
-                        {errors.name[0]}
-                    </div>
-                )}
-
+            <div className="text-danger">
+            {errors.name}
+        </div>
+        )}
+                
             </div>
 
             <div className="mb-3">
@@ -99,7 +109,7 @@ function CategoryForm({ onSubmit, editingCategory }) {
                     value={formData.description}
                     onChange={handleChange}
                 />
-
+               
             </div>
 
             <button className="btn btn-success">

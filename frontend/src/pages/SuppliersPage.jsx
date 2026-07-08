@@ -96,7 +96,6 @@ function SuppliersPage() {
         showConfirmButton: false
 });
 
-
         setShowForm(false);
         setEditingSupplier(null);
 
@@ -109,21 +108,21 @@ function SuppliersPage() {
         throw error;
     }
 
-
-
 };
     return (
 
         <div className="container mt-4">
 
             <h2>Gestion des fournisseurs</h2>
+            <br />
             <button
             className="btn btn-primary mb-3"
             onClick={() => {
-        setEditingSupplier(null);
-        setShowForm(true);
+            setEditingSupplier(null);
+            setShowForm(true);
     }}
         >
+        <i className="bi bi-plus-circle me-2"></i>
         Ajouter un fournisseur
         </button>
             {showForm && (
@@ -131,8 +130,8 @@ function SuppliersPage() {
         onSubmit={handleCreate}
         editingSupplier={editingSupplier}
         onCancel={() => {
-            setShowForm(false);
-            setEditingSupplier(null);
+        setShowForm(false);
+        setEditingSupplier(null);
         }}
         />
     )}

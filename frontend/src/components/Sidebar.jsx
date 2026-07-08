@@ -41,7 +41,7 @@ function Sidebar() {
         }`
     }
 >
-    <i className="bi bi-speedometer2 me-2"></i>
+    <i className="bi bi-box-seam me-2 "></i>
     Produits
 </NavLink>
 

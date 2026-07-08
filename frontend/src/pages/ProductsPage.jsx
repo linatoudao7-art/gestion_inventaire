@@ -253,7 +253,7 @@ console.log("ProductsPage editingProduct :", editingProduct);
             onClick={handleExport}
 >
             <i className="bi bi-file-earmark-excel me-2"></i>
-            Exporter Excel
+            Exporter vers Excel
             </button>
 
             <ProductList

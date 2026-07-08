@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Exports\ProductsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -22,10 +24,7 @@ class ProductController extends Controller
         $query->where('category_id', $request->category);
     }
 
-    // Filtre par fournisseur
-    if ($request->filled('supplier')) {
-        $query->where('supplier_id', $request->supplier);
-    }
+   
 
     $products = $query->get();
 
@@ -46,14 +45,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'quantity' => 'required|integer',
-            'purchase_price' => 'required|numeric',
-            'sale_price' => 'required|numeric',
-            'category_id' => 'required|exists:categories,id',
-            'supplier_id' => 'nullable|exists:suppliers,id',
-            'alert_threshold' => 'required|integer|min:1'
+        'name.required' => 'Le nom du produit est obligatoire.',
+        'quantity.required' => 'La quantité est obligatoire.',
+        'purchase_price.required' => "Le prix d'achat est obligatoire.",
+        'sale_price.required' => 'Le prix de vente est obligatoire.',
+        'category_id.required' => 'Veuillez sélectionner une catégorie.',
+        'category_id.exists' => 'La catégorie sélectionnée est invalide.',
+        'supplier_id.required' => 'Veuillez sélectionner un fournisseur.',
+        'supplier_id.exists' => 'Le fournisseur sélectionné est invalide.',
+        'alert_threshold.required' => "Le seuil d'alerte est obligatoire.",
+        'alert_threshold.min' => "Le seuil d'alerte doit être supérieur ou égal à 1."
         ]);
 
         $product = Product::create([
@@ -100,14 +101,16 @@ public function update(Request $request, $id)
     }
 
     $request->validate([
-        'name' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'quantity' => 'required|integer',
-        'purchase_price' => 'required|numeric',
-        'sale_price' => 'required|numeric',
-        'category_id' => 'required|exists:categories,id',
-        'supplier_id' => 'nullable|exists:suppliers,id',
-        'alert_threshold' => 'required|integer|min:1'
+        'name.required' => 'Le nom du produit est obligatoire.',
+        'quantity.required' => 'La quantité est obligatoire.',
+        'purchase_price.required' => "Le prix d'achat est obligatoire.",
+        'sale_price.required' => 'Le prix de vente est obligatoire.',
+        'category_id.required' => 'Veuillez sélectionner une catégorie.',
+        'category_id.exists' => 'La catégorie sélectionnée est invalide.',
+        'supplier_id.required' => 'Veuillez sélectionner un fournisseur.',
+        'supplier_id.exists' => 'Le fournisseur sélectionné est invalide.',
+        'alert_threshold.required' => "Le seuil d'alerte est obligatoire.",
+        'alert_threshold.min' => "Le seuil d'alerte doit être supérieur ou égal à 1."
     ]);
 
     $product->update([
@@ -144,5 +147,9 @@ public function destroy($id)
     return response()->json([
         'message' => 'Produit supprimé avec succès'
     ]);
+}
+public function export()
+{
+    return Excel::download(new ProductsExport, 'produits.xlsx');
 }
 }

@@ -37,41 +37,66 @@ function SupplierForm({ onSubmit, editingSupplier }) {
 
     const handleChange = (e) => {
 
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
+    setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
 
-    };
+    if (errors[e.target.name]) {
+        setErrors({
+            ...errors,
+            [e.target.name]: ""
+        });
+    }
+};
 
     const handleSubmit = async (e) => {
 
-        e.preventDefault();
+    e.preventDefault();
 
-        try {
+    const newErrors = {};
 
-            await onSubmit(formData);
+if (!formData.name.trim()) {
+    newErrors.name = "Le nom est obligatoire.";
+}
 
-            setErrors({});
+if (!formData.phone.trim()) {
+    newErrors.phone = "Le téléphone est obligatoire.";
+} else if (!/^\+[0-9]{1,3}[0-9]{6,14}$/.test(formData.phone.replace(/\s/g, ""))) {
+    newErrors.phone = "Le téléphone doit commencer par l'indicatif du pays (ex: +226).";
+}
+if (!formData.address.trim()) {
+    newErrors.address = "L'adresse est obligatoire.";
+}
 
-            setFormData({
-                name: "",
-                phone: "",
-                email: "",
-                address: ""
-            });
+if (Object.keys(newErrors).length > 0) {
+    setErrors(newErrors);
+    return;
+}
+    try {
 
-        } catch (errors) {
+        await onSubmit(formData);
 
-            setErrors(errors);
+        setErrors({});
 
-        }
+        setFormData({
+            name: "",
+            phone: "",
+            email: "",
+            address: ""
+        });
 
-    };
+    } catch (errors) {
+
+        setErrors(errors);
+
+    }
+
+};
 
     return (
 
-        <form onSubmit={handleSubmit} className="mb-4">
+        <form onSubmit={handleSubmit} className="card p-3 mb-4">
 
             <h4>
                 {editingSupplier ? "Modifier un fournisseur" : "Ajouter un fournisseur"}
@@ -91,7 +116,7 @@ function SupplierForm({ onSubmit, editingSupplier }) {
 
                 {errors.name && (
                     <div className="text-danger">
-                        {errors.name[0]}
+                        {errors.name}
                     </div>
                 )}
 
@@ -111,7 +136,7 @@ function SupplierForm({ onSubmit, editingSupplier }) {
 
                 {errors.phone && (
                     <div className="text-danger">
-                        {errors.phone[0]}
+                        {errors.phone}
                     </div>
                 )}
 
@@ -131,7 +156,7 @@ function SupplierForm({ onSubmit, editingSupplier }) {
 
                 {errors.email && (
                     <div className="text-danger">
-                        {errors.email[0]}
+                        {errors.email}
                     </div>
                 )}
 
@@ -147,7 +172,11 @@ function SupplierForm({ onSubmit, editingSupplier }) {
                     value={formData.address}
                     onChange={handleChange}
                 />
-
+                {errors.address && (
+            <div className="text-danger">
+            {errors.address}
+        </div>
+        )}
             </div>
 
             <button className="btn btn-success">
