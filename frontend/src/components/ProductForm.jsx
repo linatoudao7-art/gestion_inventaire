@@ -58,30 +58,6 @@ function ProductForm({
         });
     };
     
-const handleCategoryFilter = async (categoryId) => {
-
-    setSelectedCategory(categoryId);
-
-    try {
-
-        if (categoryId === "") {
-
-            loadProducts();
-
-        } else {
-
-            const response = await productService.filterByCategory(categoryId);
-
-            setProducts(response.data);
-
-        }
-        
-
-    } catch (error) {
-        console.error(error);
-    }
-
-};
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -144,12 +120,8 @@ if (Object.keys(validationErrors).length > 0) {
 
     return (
 
-        <form onSubmit={handleSubmit} className="card p-3 mb-4">
-
-            <h4>
-    {editingProduct ? "Modifier un produit" : "Ajouter un produit"}
-            </h4>
-
+        <form onSubmit={handleSubmit}>
+            
             <div className="row">
 
                 <div className="col-md-6 mb-3">
@@ -309,9 +281,21 @@ if (Object.keys(validationErrors).length > 0) {
                 
             </div>
 
-            <button className="btn btn-success">
-                {editingProduct ? "Modifier" : "Enregistrer"}
-            </button>
+            <div className="d-flex justify-content-end gap-2 mt-3">
+
+    <button
+        type="button"
+        className="btn btn-secondary"
+        onClick={onCancel}
+    >
+        Annuler
+    </button>
+
+    <button className="btn btn-success">
+        {editingProduct ? "Modifier" : "Enregistrer"}
+    </button>
+
+</div>
             
         </form>
 

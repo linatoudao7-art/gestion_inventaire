@@ -1,4 +1,4 @@
-function ProductList({ products, onDelete, onEdit }) {
+function ProductList({ products, onDelete, onEdit, onView }) {
     return (
         <table className="table table-bordered table-striped">
 
@@ -43,23 +43,51 @@ function ProductList({ products, onDelete, onEdit }) {
                     )}
                         </td>
                         <td>
-                    <button
-                                className="btn btn-warning btn-sm me-2"
-                                onClick={() => onEdit(product)}
-                            >
-                                Modifier
-                            </button>
+    <div className="dropdown">
 
-                    <button
-                                className="btn btn-danger btn-sm"
-                                onClick={() => onDelete(product.id)}
-                            >
-                                Supprimer
-                            </button>
+        <button
+            className="btn btn-secondary btn-sm dropdown-toggle"
+            data-bs-toggle="dropdown"
+        >
+            Actions
+        </button>
 
-                
+        <ul className="dropdown-menu">
 
-                        </td>
+            <li>
+                <button
+                    className="dropdown-item"
+                    onClick={() => onView(product)}
+                >
+                    <i className="bi bi-eye me-2"></i>
+                    Voir
+                </button>
+            </li>
+
+            <li>
+                <button
+                    className="dropdown-item"
+                    onClick={() => onEdit(product)}
+                >
+                    <i className="bi bi-pencil me-2"></i>
+                    Modifier
+                </button>
+            </li>
+
+            <li>
+                <button
+                    className="dropdown-item text-danger"
+                    onClick={() => onDelete(product.id)}
+                >
+                    <i className="bi bi-trash me-2"></i>
+                    Supprimer
+                </button>
+            </li>
+
+        </ul>
+
+    </div>
+</td>
                     </tr>
 
                 ))}

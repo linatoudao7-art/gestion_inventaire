@@ -99,10 +99,8 @@ function DashboardPage() {
 
                                     <br />
 
-                         
                             Fournisseurs
                        
-
                             </h5>
 
                             <h2>{stats.suppliers}</h2>
@@ -126,7 +124,6 @@ function DashboardPage() {
                             
                             Stock Faible
                        
-
                             </h5>
 
                             <h2>{stats.lowStockProducts.length}</h2>
@@ -150,7 +147,6 @@ function DashboardPage() {
                                 stock Total
                                 
                             </h5>
-
 
                             <h2>{stats.stockTotal}</h2>
 

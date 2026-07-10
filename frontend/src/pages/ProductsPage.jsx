@@ -15,14 +15,15 @@ function ProductsPage() {
     const [search, setSearch] = useState("");
     const [selectedCategory, setSelectedCategory] = useState("");
     const [showForm, setShowForm] = useState(false);
-
+    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [showDetails, setShowDetails] = useState(false);
+    
     useEffect(() => {
     loadProducts();
     loadCategories();
     loadSuppliers();
     }, []);
 
-    
     const loadProducts = async () => {
         try {
             const response = await productService.getAll();
@@ -32,7 +33,6 @@ function ProductsPage() {
         }
     };
 
-    
     const handleSearch = async (value) => {
 
     setSearch(value);
@@ -168,16 +168,19 @@ const handleCategoryFilter = async (categoryId) => {
 
         }
         
-
     } catch (error) {
         console.error(error);
     }
-
-};
+    };
 const handleEdit = (product) => {
     console.log(product);
     setEditingProduct(product);
     setShowForm(true);
+};
+
+const handleView = (product) => {
+    setSelectedProduct(product);
+    setShowDetails(true);
 };
 
 const handleExport = () => {
@@ -222,10 +225,11 @@ console.log("ProductsPage editingProduct :", editingProduct);
             </option>
 
         ))}
-        
+
     </select>
         
 </div>
+        
                 <div className="mb-3">
         <button
         className="btn btn-primary"
@@ -239,15 +243,51 @@ console.log("ProductsPage editingProduct :", editingProduct);
         </button>
 </div>
                 
-            {showForm && (
-        <ProductForm
-        onSubmit={handleCreate}
-        editingProduct={editingProduct}
-        categories={categories}
-        suppliers={suppliers}
-        onCancel={() => setShowForm(false)}
-    />
-)}    
+           {showForm && (
+    <div
+        className="modal fade show"
+        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+        tabIndex="-1"
+    >
+        <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
+
+                <div className="modal-header">
+                    <h5 className="modal-title">
+                        {editingProduct
+                            ? "Modifier un produit"
+                            : "Ajouter un produit"}
+                    </h5>
+
+                    <button
+                        type="button"
+                        className="btn-close"
+                        onClick={() => {
+                            setShowForm(false);
+                            setEditingProduct(null);
+                        }}
+                    ></button>
+                </div>
+
+                <div className="modal-body">
+
+                    <ProductForm
+                        onSubmit={handleCreate}
+                        editingProduct={editingProduct}
+                        categories={categories}
+                        suppliers={suppliers}
+                        onCancel={() => {
+                            setShowForm(false);
+                            setEditingProduct(null);
+                        }}
+                    />
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+)}
             <button
             className="btn btn-success mb-3"
             onClick={handleExport}
@@ -257,11 +297,112 @@ console.log("ProductsPage editingProduct :", editingProduct);
             </button>
 
             <ProductList
-            products={products}
-            onDelete={handleDelete}
-            onEdit={handleEdit}
-            />
+    products={products}
+    onDelete={handleDelete}
+    onEdit={handleEdit}
+    onView={handleView}
+/>
+    {showDetails && (
+    <div
+        className="modal fade show"
+        style={{ display: "block", backgroundColor: "rgba(0,0,0,0.5)" }}
+    >
+        <div className="modal-dialog modal-lg modal-dialog-centered">
+            <div className="modal-content">
 
+                <div className="modal-header">
+                    <h5 className="modal-title">
+    <i className="bi bi-box-seam me-2 text-primary"></i>
+    Détails du produit
+</h5>
+
+                    <button
+                        className="btn-close"
+                        onClick={() => setShowDetails(false)}
+                    ></button>
+                </div>
+
+                <div className="modal-body">
+
+    <table className="table table-borderless align-middle">
+
+        <tbody>
+
+            <tr>
+                <th style={{ width: "30%" }}>Nom</th>
+                <td>{selectedProduct.name}</td>
+            </tr>
+
+            <tr>
+                <th>Description</th>
+                <td>{selectedProduct.description || "-"}</td>
+            </tr>
+
+            <tr>
+                <th>Catégorie</th>
+                <td>{selectedProduct.category?.name}</td>
+            </tr>
+
+            <tr>
+                <th>Fournisseur</th>
+                <td>{selectedProduct.supplier?.name}</td>
+            </tr>
+
+            <tr>
+                <th>Prix d'achat</th>
+                <td>{selectedProduct.purchase_price} FCFA</td>
+            </tr>
+
+            <tr>
+                <th>Prix de vente</th>
+                <td>{selectedProduct.sale_price} FCFA</td>
+            </tr>
+
+            <tr>
+                <th>Quantité</th>
+                <td>{selectedProduct.quantity}</td>
+            </tr>
+
+            <tr>
+                <th>Seuil d'alerte</th>
+                <td>{selectedProduct.alert_threshold}</td>
+            </tr>
+
+            <tr>
+                <th>Statut</th>
+
+                <td>
+                    {selectedProduct.stock_status === "Stock faible" ? (
+                        <span className="badge bg-danger">
+                            Stock faible
+                        </span>
+                    ) : (
+                        <span className="badge bg-success">
+                            Stock suffisant
+                        </span>
+                    )}
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+                <div className="modal-footer">
+
+                    <button className="btn btn-primary"
+                     onClick={() => setShowDetails(false)}>
+    <i className="bi bi-x-circle me-2"></i>
+    Fermer
+</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+)}
         </div>
     );
 }

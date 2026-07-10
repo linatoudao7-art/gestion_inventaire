@@ -1,5 +1,6 @@
 body{
     background-color:#f4f6f9;
+    cursor: pointer;
 }
 
 .dashboard-card{
@@ -69,4 +70,5 @@ body{
     max-width: none;
     word-break: break-word;
     overflow-wrap: anywhere;
+    cursor: default;
 }
