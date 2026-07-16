@@ -14,6 +14,7 @@ L'application permet de gérer :
 - L'export des produits au format Excel
 
 Le backend est développé avec **Laravel** et le frontend avec **React**.
+
 ---
 
 # Technologies utilisées
@@ -95,7 +96,7 @@ DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=gestion_inventaire
 DB_USERNAME=postgres
-DB_PASSWORD=votre_mot_de_passe
+DB_PASSWORD=1234
 ```
 
 ## 4. Exécuter les migrations
@@ -115,6 +116,7 @@ Le backend sera disponible sur :
 ```
 http://127.0.0.1:8000
 ```
+
 ---
 
 # Installation du frontend React
@@ -157,15 +159,26 @@ http://localhost:5173
 
 ## Catégories
 
+- voir
 - Ajouter
 - Modifier
 - Supprimer
 
 ## Fournisseurs
 
+- voir
 - Ajouter
 - Modifier
 - Supprimer
+
+## StockMovement
+
+- Nouveau mouvement
+
+## Inventaire
+
+- Export excel
+- Voir l'historique
 
 ## Tableau de bord
 
@@ -173,12 +186,15 @@ http://localhost:5173
 - Nombre total de catégories
 - Nombre total de fournisseurs
 - Quantité totale en stock
+- valeur de stock
+- Ruptures
 - Produits en stock faible
+- Derniers mouvements
 
 ## Export
 
 - Export des produits au format Excel
-
+ 
 ---
 
 # Test des principales fonctionnalités
@@ -186,12 +202,14 @@ http://localhost:5173
 1. Ajouter une catégorie.
 2. Ajouter un fournisseur.
 3. Ajouter un produit.
-4. Modifier un produit.
-5. Supprimer un produit.
-6. Effectuer une recherche.
-7. Filtrer les produits par catégorie.
-8. Vérifier l'affichage des alertes de stock faible.
-9. Exporter la liste des produits au format Excel.
+4. Ajouter un mouvement
+5. Modifier un produit.
+6. Supprimer un produit.
+7. Voir les détails de produit.
+8. Effectuer une recherche.
+9. Filtrer les produits par catégorie.
+10. Vérifier l'affichage des alertes de stock faible.
+11. Exporter la liste des produits au format Excel.
 
 # Structure du projet
 
@@ -211,6 +229,7 @@ components/
 pages/
 services/
 ```
+
 ---
 
 # Auteur
