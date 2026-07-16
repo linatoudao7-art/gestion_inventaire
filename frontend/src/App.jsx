@@ -5,6 +5,8 @@ import CategoriesPage from "./pages/CategoriesPage";
 import SuppliersPage from "./pages/SuppliersPage";
 import DashboardPage from "./pages/DashboardPage";
 import Sidebar from "./components/Sidebar";
+import StockMovementsPage from "./pages/StockMovementsPage";
+import InventoryPage from "./pages/InventoryPage";
 
 function App() {
     return (
@@ -23,6 +25,10 @@ function App() {
                 <Route path="/categories" element={<CategoriesPage />} />
 
                 <Route path="/suppliers" element={<SuppliersPage />} />
+
+                <Route path="/stock-movement" element={<StockMovementsPage />} />
+
+                <Route path="/inventory" element={<InventoryPage />} />
 
             </Routes>
 

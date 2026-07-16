@@ -1,73 +1,102 @@
-import "../Styles/SupplierList.css";
+import React from "react";
 
-function SupplierList({ suppliers, onDelete, onEdit }) {
-
+function SupplierList({ suppliers, selectedSupplier, onSelectSupplier }) {
     return (
-
-        <table
-        className="table table-bordered table-striped mt-4 supplier-table"
-        style={{ tableLayout: "fixed", width: "100%" }}
-        >
-
-            <thead>
-
-                <tr>
-                    <th>Nom</th>
-                    <th>Téléphone</th>
-                    <th>Email</th>
-                    <th>Adresse</th>
-                    <th style={{ width: "220px" }}>Actions</th>
-                </tr>
-
-            </thead>
-
-            <tbody>
-
-                {suppliers.map(supplier => (
-
-                    <tr key={supplier.id}>
-
-                        <td style={{ width: "180px" }}>{supplier.name}</td>
-                        <td style={{ width: "180px" }}>{supplier.phone}</td>
-                        <td title={supplier.email}>
-                        {supplier.email && supplier.email.length > 15
-                        ? supplier.email.substring(0, 15) + "..."
-                        : supplier.email}
-                        </td>
-                        <td title={supplier.address}>
-                        {supplier.address && supplier.address.length > 15
-                        ? supplier.address.substring(0, 15) + "..."
-                        : supplier.address}
-                        </td>
-                        <td>
-                           
-                        <button
-                                className="btn btn-warning btn-sm me-2"
-                                onClick={() => onEdit(supplier)}
-                            >
-                                Modifier
-                            </button>
-
-                        <button
-                                className="btn btn-danger btn-sm"
-                                onClick={() => onDelete(supplier.id)}
-                            >
-                                Supprimer
-                            </button>
-
-
-                        </td>
-
+        <div className="table-responsive">
+            <table className="table table-hover align-middle mb-0">
+                {/* --- EN-TÊTE DU TABLEAU --- */}
+                <thead className="table-light">
+                    <tr className="text-secondary" style={{ fontSize: "0.95rem", fontWeight: "600" }}>
+                        <th style={{ width: "8%" }}></th> {/* Espace pour le rond de sélection */}
+                        <th style={{ width: "27%" }} className="text-dark fw-bold">Nom</th>
+                        <th style={{ width: "20%" }} className="text-dark fw-bold">Téléphone</th>
+                        <th style={{ width: "25%" }} className="text-dark fw-bold">Email</th>
+                        <th style={{ width: "20%" }} className="text-dark fw-bold">Adresse</th>
                     </tr>
+                </thead>
 
-                ))}
-                
-            </tbody>
+                {/* --- CORPS DU TABLEAU --- */}
+                <tbody>
+                    {suppliers.length === 0 ? (
+                        /* Cas où aucun fournisseur n'est disponible */
+                        <tr>
+                            <td colSpan="5" className="text-center py-5 text-muted">
+                                <i className="bi bi-inbox fs-2 d-block mb-2 text-secondary opacity-50"></i>
+                                Aucun fournisseur trouvé
+                            </td>
+                        </tr>
+                    ) : (
+                        /* Affichage de la liste de fournisseurs */
+                        suppliers.map(supplier => {
+                            const isSelected = selectedSupplier?.id === supplier.id;
+                            return (
+                                <tr
+                                    key={supplier.id}
+                                    onClick={() => onSelectSupplier(supplier)}
+                                    className={isSelected ? "table-primary-subtle" : ""}
+                                    style={{ 
+                                        cursor: "pointer", 
+                                        transition: "all 0.15s ease",
+                                        backgroundColor: isSelected ? "#f0f7ff" : "transparent"
+                                    }}
+                                >
+                                    {/* Colonne : Bouton Radio personnalisé */}
+                                    <td onClick={(e) => e.stopPropagation()}>
+                                        <input
+                                            type="radio"
+                                            name="supplier-select"
+                                            className="form-check-input text-primary"
+                                            checked={isSelected}
+                                            onChange={() => onSelectSupplier(supplier)}
+                                            style={{ 
+                                                cursor: "pointer", 
+                                                width: "1.15rem", 
+                                                height: "1.15rem",
+                                                border: isSelected ? "2px solid #0d6efd" : "1px solid #ced4da",
+                                                boxShadow: isSelected ? "0 0 0 0.25rem rgba(13, 110, 253, 0.25)" : "none"
+                                            }}
+                                        />
+                                    </td>
 
-        </table>
+                                    {/* Colonne : Nom du fournisseur en semi-gras */}
+                                    <td className="text-dark fw-semibold">
+                                        {supplier.name}
+                                    </td>
 
+                                    {/* Colonne : Téléphone */}
+                                    <td className="text-muted">
+                                        {supplier.phone ? supplier.phone : "—"}
+                                    </td>
+
+                                    {/* Colonne : Email (tronqué proprement si trop long) */}
+                                    <td className="text-muted" title={supplier.email || ""}>
+                                        {supplier.email ? (
+                                            supplier.email.length > 18
+                                                ? supplier.email.substring(0, 18) + "..."
+                                                : supplier.email
+                                        ) : (
+                                            "—"
+                                        )}
+                                    </td>
+
+                                    {/* Colonne : Adresse (tronquée proprement si trop longue) */}
+                                    <td className="text-muted" title={supplier.address || ""}>
+                                        {supplier.address ? (
+                                            supplier.address.length > 18
+                                                ? supplier.address.substring(0, 18) + "..."
+                                                : supplier.address
+                                        ) : (
+                                            "—"
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    )}
+                </tbody>
+            </table>
+        </div>
     );
-
 }
 
 export default SupplierList;

@@ -112,3 +112,73 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+/* ===== Boutons ===== */
+
+.btn{
+    border-radius:12px;
+    font-weight:600;
+    padding:10px 18px;
+    transition:all .25s ease;
+}
+
+.btn-primary{
+    background:#2563EB;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#1D4ED8;
+    transform:translateY(-2px);
+}
+
+.btn-success{
+    border:none;
+    background:#10B981;
+}
+
+.btn-success:hover{
+    background:#059669;
+    transform:translateY(-2px);
+}
+
+.btn-danger:hover,
+.btn-warning:hover,
+.btn-secondary:hover{
+    transform:translateY(-2px);
+}
+/* ===== Tableaux ===== */
+
+.table{
+    border-radius:16px;
+    overflow:hidden;
+    background:white;
+}
+
+.table thead{
+    background:#F8FAFC;
+}
+
+.table thead th{
+    border:none;
+    color:#374151;
+    font-weight:700;
+    padding:16px;
+}
+
+.table tbody td{
+    padding:16px;
+    vertical-align:middle;
+}
+
+.table tbody tr{
+    transition:.2s;
+}
+
+.table tbody tr:hover{
+    background:#F1F5F9;
+}
+/* Effet de survol discret pour les éléments inactifs de la sidebar */
+.hover-dark:hover {
+    background-color: #1a1d20 !important;
+    color: #ffffff !important;
+}
